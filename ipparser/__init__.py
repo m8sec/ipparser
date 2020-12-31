@@ -87,7 +87,7 @@ def ipparser(host_input, resolve=False, open_ports=False, silent=False, exit_on_
             stdout.write(str("IPParser Error: {}".format(str(e))))
         if exit_on_error:
             exit(1)
-    return output
+    return list(set(output))
 
 def parse_txt(host_input, resolve, silent, exit_on_error, debug):
     output = []
