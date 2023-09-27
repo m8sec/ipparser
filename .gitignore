@@ -1,0 +1,9 @@
+develop-eggs/
+__pycache__/
+*.egg-info/
+build/
+dist/
+.DS_Store
+*.pyc
+*.egg
+.idea/
