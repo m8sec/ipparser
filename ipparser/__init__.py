@@ -100,7 +100,7 @@ class IPParser:
             elif match(self.regex['cidr'], target):
                 LOG.debug('IPParser: Processing CIDR input')
                 for ip in ipaddress.ip_network(target, strict=False):
-                    self.hosts.append(ip)
+                    self.hosts.append(str(ip))
             else:
                 LOG.debug('IPParser: Processing single IP or URL input')
                 self.hosts.append(target) if target not in self.hosts else False
@@ -113,7 +113,7 @@ class IPParser:
     def ip_parser(self, ip):
         try:
             # Return True on valid IPv4/IPv6 address (not in use)
-            return ipaddress.ip_address(ip)
+            return ipaddress.ip_address(str(ip))
         except:
             return False
 
@@ -180,7 +180,6 @@ def resolve_dns(host, qtype="A", ns=[], tcp=False, timeout=3):
             res.nameservers = [ns] if type(ns) == str else ns
         dns.resolver.override_system_resolver(res)
         dns_query = res.resolve(host, qtype, tcp=tcp)
-
         # Return first resolved IP
         result = str(dns_query[0])
     except Exception as e:

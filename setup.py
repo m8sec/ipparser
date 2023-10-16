@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setup(
     name='ipparser',
-    version='1.0.0',
+    version='1.0.1',
     author='m8sec',
     description='Lightweight package to parse host inputs for iteration.',
     long_description=long_description,
