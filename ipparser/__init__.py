@@ -185,39 +185,3 @@ def resolve_dns(host, qtype="A", ns=[], tcp=False, timeout=3):
     except Exception as e:
         LOG.debug(f'IPParser ERR: Failed to resolve {host} - {e}')
     return result
-
-
-def host_parser(host, default_proto=['http', 'https'], default_port=False, default_pages=['/']):
-    # Normalize various host inputs and return dict of parsed values
-    tmp = {'proto': default_proto, 'host': False, 'port': default_port, 'page': default_pages}
-
-    regex = [
-        # http://example.com:8080/page
-        r'(.*)://(.*):([0-9]+)(/.*)',
-        # http://example.com/page/index.html
-        r'(.*)://([^/]+)()(.*.)',
-        # http://example.com/internal/
-        r'(.*)://([^/]+)()(.*/)',
-        # http://example.com:8080
-        r'(.*)://(.*):([0-9]+)()',
-        # http://example.com
-        r'(.*)://(.*)()()',
-        # example.com:8080/page
-        r'()(.*):([0-9]+)(/.*)',
-        # example.com:8080
-        r'()(.*):([0-9]+)()',
-        # example.com
-        r'()(.+\.[a-z|A-Z]{2,})()()',
-        # 192.168.1.1
-        r'()(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})()()',
-    ]
-
-    for pattern in regex:
-        r = re.search(pattern, host)
-        if r is not None:
-            tmp['proto'] = [r.group(1).lower()] if r.group(1) else tmp['proto']
-            tmp['host'] = r.group(2) if r.group(2) and ':' not in r.group(2) else tmp['host']
-            tmp['port'] = r.group(3) if r.group(3) else tmp['port']
-            tmp['page'] = [r.group(4)] if r.group(4) else tmp['page']
-            return tmp
-    return tmp
